@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>YouTube Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        label,
+        input,
+        select,
+        button {
+            margin: 5px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            max-width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin: 20px auto;
+            box-sizing: border-box;
+        }
+
+        .card-content {
+            padding: 12px;
+        }
+
+        .card-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #12bde7;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .card-btn:hover {
+            background-color: #0ca6c2;
+        }
+
+        .msg {
+            display: flex;
+            justify-content: center;
+        }
+
+        .message {
+            background-color: #13e244;
+            width: 300px;
+            color: #000000;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .error {
+            background-color: #ee3f0a;
+            width: 300px;
+            color: #000000;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>YouTube Downloader</h1>
+    <div class="card">
+        <div class="card-content">
+            <button class="card-btn" type="submit"><a th:href="@{'download/' + ${VideoName}}">Download</a></button>
+        </div>
+    </div>
+</body>
+
+</html>

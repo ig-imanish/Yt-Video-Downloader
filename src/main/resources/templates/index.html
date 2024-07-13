@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>YouTube Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        form {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        label,
+        input,
+        select,
+        button {
+            margin: 5px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            max-width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin: 20px auto;
+            box-sizing: border-box;
+        }
+
+        .card-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background-color: #ddd;
+        }
+
+        .card-image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #fff;
+            z-index: 1;
+        }
+
+        .card-content {
+            padding: 12px;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-details {
+            margin: 6px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #12bde7;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .card-btn:hover {
+            background-color: #0ca6c2;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: calc(100% - 10px);
+            background-position-y: center;
+            cursor: pointer;
+        }
+
+        option {
+            padding: 8px;
+            font-size: 14px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        select:hover,
+        select:focus {
+            border-color: #999;
+        }
+
+        option:checked {
+            background-color: #12bde7;
+            color: #fff;
+        }
+
+        .msg {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .message,
+        .error {
+            width: 300px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            background-color: #13e244;
+            color: #000000;
+        }
+
+        .error {
+            background-color: #ee3f0a;
+            color: #000000;
+        }
+
+        .btn-download-page {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #12bde7;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-download-page:hover {
+            background-color: #0ca6c2;
+        }
+        .message .btn-download-page a {
+            text-decoration: none;
+            color: #070707;
+        }
+
+        .btn-fetch {
+            border: none;
+            background-color: #12bde7;
+            border-radius: 6px;
+            padding: 10px 20px;
+        }
+
+        .input {
+            border: none;
+            border-bottom: 1px solid rgb(117, 117, 117);
+            border-left: 1px solid rgb(117, 117, 117);
+            outline: none;
+            background-color: #ddd;
+            padding: 7px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>YouTube Downloader</h1>
+    <form action="/fetchInfo" method="post">
+        <label for="videoUrl">Enter YouTube URL:</label>
+        <input class="input" type="text" id="videoUrl" name="videoUrl" required>
+        <button class="btn-fetch" type="submit">Fetch Info</button>
+    </form>
+
+    <div th:if="${videoInfo}" class="card">
+
+        <div class="card-image-container">
+            <img th:src="${videoInfo != null ? videoInfo.thumbnailUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUENscPbGJ-VPONgBqOeyAJ0X5GrmzFdzeAg&s'}"
+                alt="">
+            <span class="video-icon">▶</span>
+        </div>
+        <div class="card-content">
+            <h3 class="card-title"><strong>Title:</strong> <span
+                    th:text="${videoInfo != null ? videoInfo.title : 'Default Title'}"></span></h3>
+            <p class="card-details"><strong>Duration:</strong> <span
+                    th:text="${videoInfo != null ? videoInfo.duration : 'N/A'}">0</span> seconds</p>
+            <p class="card-details"><strong>Resolution:</strong> <span
+                    th:text="${videoInfo != null ? videoInfo.resolution : 'N/A'}">NaN</span></p>
+            <form action="/download" method="post">
+                <input type="hidden" name="videoUrl" th:value="${videoUrl}">
+                <select name="formatId" if:th="${videoInfo.formats}">
+                    <option th:each="format : ${videoInfo.formats}"
+                        th:if="${#sets.contains({'144p', '240p', '360p', '480p', '720p', '1080p', 'webp'}, format.formatNote)}"
+                        th:value="${format.formatId}" th:text="${format.formatNote + ' (' + format.extension + ')' }">
+                    </option>
+                </select>
+                <button class="card-btn" type="submit">Download</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="msg">
+        <div class="message" th:if="${message}">
+            <p><strong>Message:</strong> <span th:text="${message}"></span></p>
+
+            <button class="btn-download-page"><a th:href="@{'downloadPage/' + ${VideoName}}">Downalod Page</a></button>
+        </div>
+
+        <div class="error" th:if="${error}">
+            <p><strong>Error:</strong> <span th:text="${error}"></span></p>
+        </div>
+    </div>
+</body>
+
+</html>
